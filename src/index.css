@@ -1,0 +1,62 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "tailwindcss/base";
+
+@import "tailwindcss/components";
+
+@import "tailwindcss/utilities";
+
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+  }
+}
+:root {
+    --background: 0, 0%, 100%;
+    --foreground: 222, 47%, 11%;
+    --border: 220, 13%, 91%;
+    --input: 220, 13%, 91%;
+    --ring: 222, 47%, 11%;
+    --radius: 8px;
+  
+    --card: 0, 0%, 100%;
+    --card-foreground: 222, 47%, 11%;
+  
+    --popover: 0, 0%, 100%;
+    --popover-foreground: 222, 47%, 11%;
+  
+    --primary: 222, 47%, 11%;
+    --primary-foreground: 0, 0%, 100%;
+  
+    --secondary: 210, 40%, 96%;
+    --secondary-foreground: 222, 47%, 11%;
+  
+    --muted: 210, 40%, 96%;
+    --muted-foreground: 215, 16%, 47%;
+  
+    --accent: 210, 40%, 96%;
+    --accent-foreground: 222, 47%, 11%;
+  
+    --destructive: 0, 84%, 60%;
+    --destructive-foreground: 210, 40%, 98%;
+  
+    --chart-1: 210, 90%, 40%;
+    --chart-2: 150, 90%, 40%;
+    --chart-3: 50, 90%, 40%;
+    --chart-4: 0, 90%, 40%;
+    --chart-5: 275, 90%, 40%;
+  }
+  
+  html, body, #root {
+    margin: 0;
+    height: 100%;
+    overflow: hidden;
+  }
+  canvas {
+    display: block;
+  }
+  
