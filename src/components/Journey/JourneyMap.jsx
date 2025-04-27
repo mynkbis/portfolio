@@ -1,254 +1,48 @@
-// import { useState, useRef, useEffect } from "react"
-
-// const ReactDeveloperJourney = () => {
-//   const [rotation, setRotation] = useState(0)
-//   const [isDragging, setIsDragging] = useState(false)
-//   const [startX, setStartX] = useState(0)
-//   const containerRef = useRef(null)
-
-//   const steps = [
-//     {
-//       id: 1,
-//       color: "bg-orange-500",
-//       title: "Fundamentals",
-//       description: "Learning HTML, CSS, and JavaScript basics",
-//     },
-//     {
-//       id: 2,
-//       color: "bg-yellow-400",
-//       title: "React Basics",
-//       description: "Components, props, and state management",
-//     },
-//     {
-//       id: 3,
-//       color: "bg-lime-500",
-//       title: "Advanced Concepts",
-//       description: "Hooks, context API, and performance optimization",
-//     },
-//     {
-//       id: 4,
-//       color: "bg-teal-500",
-//       title: "Ecosystem",
-//       description: "Routing, state management libraries, and testing",
-//     },
-//     {
-//       id: 5,
-//       color: "bg-blue-500",
-//       title: "Full Stack",
-//       description: "API integration, authentication, and deployment",
-//     },
-//   ]
-
-//   const handleMouseDown = (e) => {
-//     setIsDragging(true)
-//     setStartX(e.clientX)
-//   }
-
-//   const handleMouseMove = (e) => {
-//     if (!isDragging) return
-//     const deltaX = e.clientX - startX
-//     setRotation((prev) => (prev + deltaX * 0.5) % 360)
-//     setStartX(e.clientX)
-//   }
-
-//   const handleMouseUp = () => setIsDragging(false)
-
-//   const handleTouchStart = (e) => {
-//     setIsDragging(true)
-//     setStartX(e.touches[0].clientX)
-//   }
-
-//   const handleTouchMove = (e) => {
-//     if (!isDragging) return
-//     const deltaX = e.touches[0].clientX - startX
-//     setRotation((prev) => (prev + deltaX * 0.5) % 360)
-//     setStartX(e.touches[0].clientX)
-//   }
-
-//   const handleTouchEnd = () => setIsDragging(false)
-
-//   useEffect(() => {
-//     const handleMouseUpGlobal = () => setIsDragging(false)
-//     document.addEventListener("mouseup", handleMouseUpGlobal)
-//     document.addEventListener("touchend", handleMouseUpGlobal)
-//     return () => {
-//       document.removeEventListener("mouseup", handleMouseUpGlobal)
-//       document.removeEventListener("touchend", handleMouseUpGlobal)
-//     }
-//   }, [])
-
-//   const calculateStepPosition = (index) => {
-//     const totalSteps = steps.length
-//     const angleStep = (2 * Math.PI) / totalSteps
-//     const radius = 120
-//     const heightStep = 40
-
-//     const angle = angleStep * index + (rotation * Math.PI) / 180
-//     const x = radius * Math.cos(angle)
-//     const z = radius * Math.sin(angle)
-//     const y = index * heightStep
-
-//     return { x, y, z, angle }
-//   }
-
-//   const getFrontStepIndex = () => {
-//     let closest = null
-//     let minDiff = Infinity
-//     steps.forEach((_, index) => {
-//       const totalSteps = steps.length
-//       const angleStep = (2 * Math.PI) / totalSteps
-//       const angle = angleStep * index + (rotation * Math.PI) / 180
-//       const angleDeg = ((angle * 180) / Math.PI + 360) % 360
-//       const diff = Math.abs(angleDeg > 180 ? 360 - angleDeg : angleDeg)
-//       if (diff < minDiff) {
-//         minDiff = diff
-//         closest = index
-//       }
-//     })
-//     return closest
-//   }
-
-//   const frontStepIndex = getFrontStepIndex()
-
-//   return (
-//     <div className="w-full max-w-4xl mx-auto p-6 bg-gray-50 rounded-lg shadow-lg">
-//       <div className="text-center mb-8">
-//         <h1 className="text-3xl font-bold text-gray-800">5 STEPS</h1>
-//         <p className="text-xl text-gray-600">INFOGRAPHICS</p>
-//         <div className="flex justify-center gap-1 mt-2">
-//           <div className="w-6 h-1 bg-blue-500"></div>
-//           <div className="w-6 h-1 bg-teal-500"></div>
-//           <div className="w-6 h-1 bg-lime-500"></div>
-//           <div className="w-6 h-1 bg-yellow-400"></div>
-//           <div className="w-6 h-1 bg-orange-500"></div>
-//         </div>
-//       </div>
-
-//       <div className="text-center mb-4">
-//         <p className="text-sm text-gray-500">Click and drag to rotate the stairs</p>
-//       </div>
-
-//       {/* Spiral Container */}
-//       <div
-//         ref={containerRef}
-//         className="relative h-[400px] w-full perspective-1000 cursor-grab active:cursor-grabbing"
-//         onMouseDown={handleMouseDown}
-//         onMouseMove={handleMouseMove}
-//         onMouseUp={handleMouseUp}
-//         onMouseLeave={handleMouseUp}
-//         onTouchStart={handleTouchStart}
-//         onTouchMove={handleTouchMove}
-//         onTouchEnd={handleTouchEnd}
-//       >
-//         <div
-//           className="absolute w-full h-full transform-style-3d transition-transform duration-300"
-//           style={{
-//             transformStyle: "preserve-3d",
-//             transform: `translateZ(-200px) rotateX(20deg)`,
-//           }}
-//         >
-//           {/* Center Pole */}
-//           <div
-//             className="absolute left-1/2 top-1/2 w-4 h-[400px] bg-gray-300 opacity-30"
-//             style={{
-//               transform: "translateX(-50%) translateY(-50%) rotateX(90deg)",
-//             }}
-//           ></div>
-
-//           {/* Steps */}
-//           {steps.map((step, index) => {
-//             const { x, y, z, angle } = calculateStepPosition(index)
-//             const isActive = index === frontStepIndex
-
-//             return (
-//               <div
-//                 key={step.id}
-//                 className="absolute left-1/2 top-1/2 transition-all duration-300"
-//                 style={{
-//                   transform: `translateX(${x}px) translateY(${-y}px) translateZ(${z}px) rotateY(${-angle}rad)`,
-//                   transformStyle: "preserve-3d",
-//                   zIndex: isActive ? 10 : 5,
-//                 }}
-//               >
-//                 {/* Platform */}
-//                 <div
-//                   className={`${step.color} w-[120px] h-[40px] rounded-md shadow-md flex items-center justify-center transition-all duration-300 hover:brightness-110 cursor-pointer ${
-//                     isActive ? "ring-2 ring-white" : ""
-//                   }`}
-//                 >
-//                   <span className="text-white font-bold text-sm">Step {step.id}</span>
-//                 </div>
-
-//                 {/* Support Pillar */}
-               
-//                 {/* Character */}
-//                 {isActive && (
-//                   <div className="absolute -top-10 left-1/2 transform -translate-x-1/2 transition-all duration-500">
-//                     <div className="animate-bounce">
-//                       <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
-//                         <circle cx="12" cy="6" r="3" fill="black" />
-//                         <line x1="12" y1="9" x2="12" y2="15" stroke="black" strokeWidth="2" />
-//                         <line x1="12" y1="12" x2="8" y2="14" stroke="black" strokeWidth="2" />
-//                         <line x1="12" y1="12" x2="16" y2="10" stroke="black" strokeWidth="2" />
-//                         <line x1="12" y1="15" x2="9" y2="19" stroke="black" strokeWidth="2" />
-//                         <line x1="12" y1="15" x2="15" y2="19" stroke="black" strokeWidth="2" />
-//                         <rect x="6" y="13" width="3" height="2" fill="black" />
-//                       </svg>
-//                     </div>
-//                   </div>
-//                 )}
-//               </div>
-//             )
-//           })}
-//         </div>
-//       </div>
-
-//       {/* Rotation Buttons */}
-//       <div className="flex justify-center gap-4 mt-6">
-//         <button
-//           className="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300"
-//           onClick={() => setRotation((prev) => (prev - 30) % 360)}
-//         >
-//           Rotate Left
-//         </button>
-//         <button
-//           className="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300"
-//           onClick={() => setRotation((prev) => (prev + 30) % 360)}
-//         >
-//           Rotate Right
-//         </button>
-//       </div>
-
-//       {/* Step Description */}
-//       <div className="mt-8 bg-white p-4 rounded-lg shadow-md transition-all duration-300">
-//         <h2 className={`text-xl font-bold ${steps[frontStepIndex].color.replace("bg-", "text-")}`}>
-//           {steps[frontStepIndex].title}
-//         </h2>
-//         <p className="text-gray-700 mt-2">{steps[frontStepIndex].description}</p>
-//       </div>
-//     </div>
-//   )
-// }
-
-// export default ReactDeveloperJourney
-// ReactDeveloperJourney.jsx
 import React, { useRef, useEffect, useState } from "react";
+
 import * as THREE from "three";
 
 const ReactDeveloperJourney = () => {
+  const isHoveredRef = useRef(false);
+
+  const hoveredStepRef = useRef(null);
+
+  const isDraggingRef = useRef(false);
+
   const canvasRef = useRef(null);
+
   const [stepIndex, setStepIndex] = useState(0);
 
+  const lastX = useRef(0);
+
+  const rotationTimeRef = useRef(0);
+
+  // Tooltip state
+
+  const [tooltipVisible, setTooltipVisible] = useState(false);
+
+  const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
+
+  const [tooltipText, setTooltipText] = useState("");
+
   const steps = [
-    { color: "#1E3A8A" }, // Dark Blue
-    { color: "#1D4ED8" }, // Blue
-    { color: "#16A34A" }, // Green
-    { color: "#34D399" }, // Light Green
-    { color: "#FBBF24" }, // Yellow
-    { color: "#F59E0B" }, // Orange
-    { color: "#F97316" }, // Orange Red
-    { color: "#DC2626" }, // Red
-    { color: "#B91C1C" }, // Dark Red
+    { color: "#1E3A8A" },
+
+    { color: "#1D4ED8" },
+
+    { color: "#16A34A" },
+
+    { color: "#34D399" },
+
+    { color: "#FBBF24" },
+
+    { color: "#F59E0B" },
+
+    { color: "#F97316" },
+
+    { color: "#DC2626" },
+
+    { color: "#B91C1C" },
   ];
 
   useEffect(() => {
@@ -256,96 +50,422 @@ const ReactDeveloperJourney = () => {
 
     const camera = new THREE.PerspectiveCamera(
       60,
+
       window.innerWidth / window.innerHeight,
+
       0.1,
+
       1000
     );
+
     camera.position.set(0, 10, 30);
 
-    const renderer = new THREE.WebGLRenderer({ canvas: canvasRef.current, antialias: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(window.devicePixelRatio);
-
-    window.addEventListener("resize", () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
+    const renderer = new THREE.WebGLRenderer({
+      canvas: canvasRef.current,
+      antialias: true,
     });
 
-    // Lights
+    renderer.setSize(window.innerWidth, window.innerHeight);
+
+    renderer.setPixelRatio(window.devicePixelRatio);
+
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+
     const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+
     directionalLight.position.set(10, 20, 10);
+
     scene.add(ambientLight);
+
     scene.add(directionalLight);
 
-    // Spiral staircase setup
     const stepHeight = 1;
+
     const stepWidth = 5;
+
     const stepDepth = 2;
+
     const radius = 10;
+
     const angleStep = (Math.PI * 2) / steps.length;
 
     const stepsGroup = new THREE.Group();
 
-    steps.forEach((step, index) => {
+    const stepMeshes = steps.map((step, index) => {
       const geometry = new THREE.BoxGeometry(stepWidth, stepHeight, stepDepth);
+
       const material = new THREE.MeshStandardMaterial({ color: step.color });
+
       const mesh = new THREE.Mesh(geometry, material);
 
       const angle = index * angleStep;
+
       mesh.position.set(
         radius * Math.cos(angle),
+
         index * (stepHeight + 0.2),
+
         radius * Math.sin(angle)
       );
+
       mesh.rotation.y = -angle;
+
+      // Store the step index for tooltip use
+
+      mesh.userData = {
+        originalScale: new THREE.Vector3(1, 1, 1),
+
+        stepIndex: index,
+
+        isMainStep: true, // Add a flag to identify this as a main step object
+      };
+
+      const canvas = document.createElement("canvas");
+
+      canvas.width = 100;
+
+      canvas.height = 24;
+
+      const ctx = canvas.getContext("2d");
+
+      ctx.font = "18px Arial";
+
+      ctx.fillStyle = "#ffffff";
+
+      ctx.textAlign = "center";
+
+      ctx.fillText(
+        `Step ${index + 1}`,
+        canvas.width / 2,
+        canvas.height / 2 + 10
+      );
+
+      const texture = new THREE.CanvasTexture(canvas);
+
+      const labelMaterial = new THREE.MeshBasicMaterial({
+        map: texture,
+        transparent: true,
+      });
+
+      const labelGeometry = new THREE.PlaneGeometry(2.5, 0.6);
+
+      const label = new THREE.Mesh(labelGeometry, labelMaterial);
+
+      // Mark label as not a main step
+
+      label.userData = {
+        isMainStep: false,
+      };
+
+      label.position.set(0, stepHeight / 2 + 0.5, 0);
+
+      mesh.add(label);
+
       stepsGroup.add(mesh);
+
+      return mesh;
     });
 
     scene.add(stepsGroup);
 
-    // Character (Sphere)
-    const characterGeometry = new THREE.SphereGeometry(0.6, 32, 32);
-    const characterMaterial = new THREE.MeshStandardMaterial({ color: 0x000000 });
-    const character = new THREE.Mesh(characterGeometry, characterMaterial);
-    scene.add(character);
+    // Align Step 1 in front (+Z)
 
-    // Timer to update stepIndex
-    const interval = setInterval(() => {
-      setStepIndex((prev) => (prev < steps.length - 1 ? prev + 1 : prev));
-    }, 1500);
+    const initialStepAngle = 90;
 
-    // Animation
-    const animate = () => {
-      requestAnimationFrame(animate);
+    const targetAngle = Math.PI / 2;
 
-      // Rotate camera around Y-axis only
-      const time = Date.now() * 0.001;
-      camera.position.x = 30 * Math.sin(time * 0.3);
-      camera.position.z = 30 * Math.cos(time * 0.3);
-      camera.lookAt(new THREE.Vector3(0, steps.length / 2, 0));
+    const initialGroupRotation = targetAngle - initialStepAngle;
 
-      // Update character to stay on the front-facing step
-      const angle = stepIndex * angleStep;
-      character.position.set(
-        radius * Math.cos(angle),
-        stepIndex * (stepHeight + 0.2) + stepHeight / 2 + 0.6,
-        radius * Math.sin(angle)
+    stepsGroup.rotation.y = initialGroupRotation;
+
+    // Initialize rotation time based on initial group rotation
+
+    rotationTimeRef.current = stepsGroup.rotation.y / 0.4;
+
+    camera.position.x = 30 * Math.sin(rotationTimeRef.current * 0.1);
+
+    camera.position.z = 30 * Math.cos(rotationTimeRef.current * 0.1);
+
+    camera.lookAt(new THREE.Vector3(0, steps.length / 2, 0));
+
+    // Raycaster for detecting hovering over objects
+
+    const raycaster = new THREE.Raycaster();
+
+    const mouse = new THREE.Vector2();
+
+    const handlePointerMove = (event) => {
+      // Track mouse position
+
+      const rect = renderer.domElement.getBoundingClientRect();
+
+      mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+
+      mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+
+      // Update tooltip position
+
+      setTooltipPosition({
+        x: event.clientX,
+
+        y: event.clientY - 50,
+      });
+
+      // Cast ray to detect objects
+
+      raycaster.setFromCamera(mouse, camera);
+
+      const intersects = raycaster.intersectObjects(scene.children, true);
+
+      // Find the first intersection that is a main step (not a label)
+
+      const mainStepIntersect = intersects.find(
+        (intersect) =>
+          intersect.object.userData &&
+          intersect.object.userData.isMainStep === true
       );
-      character.rotation.y = -angle;
+
+      // Handle when not hovering over a main step
+
+      if (!mainStepIntersect) {
+        // If we were previously hovering over something, reset it
+
+        if (hoveredStepRef.current) {
+          hoveredStepRef.current.scale.set(1, 1, 1); // Reset scale
+
+          hoveredStepRef.current = null;
+        }
+
+        isHoveredRef.current = false;
+
+        setTooltipVisible(false);
+
+        return;
+      }
+
+      // Handle hovering over a main step
+
+      const hoveredObject = mainStepIntersect.object;
+
+      isHoveredRef.current = true;
+
+      // If it's a different object than before, reset old one and set up new one
+
+      if (hoveredStepRef.current !== hoveredObject) {
+        if (hoveredStepRef.current) {
+          hoveredStepRef.current.scale.set(1, 1, 1); // Reset previous object
+        }
+
+        hoveredStepRef.current = hoveredObject;
+
+        hoveredObject.scale.set(1.2, 1.2, 1.2); // Apply zoom effect
+
+        // Update tooltip content
+
+        const stepNum = hoveredObject.userData.stepIndex + 1;
+
+        setTooltipText(`Hello User! Welcome to Step ${stepNum}`);
+
+        setTooltipVisible(true);
+      }
+    };
+
+    // Handle mouse leaving canvas
+
+    const handlePointerLeave = () => {
+      if (hoveredStepRef.current) {
+        hoveredStepRef.current.scale.set(1, 1, 1);
+
+        hoveredStepRef.current = null;
+      }
+
+      isHoveredRef.current = false;
+
+      setTooltipVisible(false);
+    };
+
+    renderer.domElement.addEventListener("pointermove", handlePointerMove);
+
+    renderer.domElement.addEventListener("pointerleave", handlePointerLeave);
+
+    // Drag logic
+
+    const handlePointerDown = (event) => {
+      isDraggingRef.current = true;
+
+      lastX.current = event.clientX;
+    };
+
+    const handlePointerMoveDrag = (event) => {
+      if (!isDraggingRef.current) return;
+
+      const deltaX = event.clientX - lastX.current;
+
+      lastX.current = event.clientX;
+
+      const rotationDelta = deltaX * 0.005;
+
+      stepsGroup.rotation.y += rotationDelta;
+
+      // Update rotation time based on current group rotation
+
+      // This ensures animation continues from current position
+
+      rotationTimeRef.current = stepsGroup.rotation.y / 0.4;
+
+      camera.position.x = 30 * Math.sin(rotationTimeRef.current * 0.1);
+
+      camera.position.z = 30 * Math.cos(rotationTimeRef.current * 0.1);
+
+      camera.lookAt(new THREE.Vector3(0, steps.length / 2, 0));
+    };
+
+    const handlePointerUp = () => {
+      if (isDraggingRef.current) {
+        // Capture the final rotation position to continue from there
+
+        rotationTimeRef.current = stepsGroup.rotation.y / 0.4;
+
+        isDraggingRef.current = false;
+      }
+    };
+
+    renderer.domElement.addEventListener("pointerdown", handlePointerDown);
+
+    renderer.domElement.addEventListener("pointermove", handlePointerMoveDrag);
+
+    renderer.domElement.addEventListener("pointerup", handlePointerUp);
+
+    document.addEventListener("pointerup", handlePointerUp); // Handle case when released outside canvas
+
+    // Animation loop
+
+    let animationId;
+
+    let lastTime = Date.now();
+
+    const animate = () => {
+      animationId = requestAnimationFrame(animate);
+
+      const now = Date.now();
+
+      const delta = (now - lastTime) * 0.001;
+
+      lastTime = now;
+
+      // Only auto-rotate when not hovering and not dragging
+
+      if (!isHoveredRef.current && !isDraggingRef.current) {
+        // Increment rotation time and apply to group rotation
+
+        rotationTimeRef.current += delta;
+
+        stepsGroup.rotation.y = rotationTimeRef.current * 0.4;
+
+        // Update camera position based on rotation time
+
+        camera.position.x = 30 * Math.sin(rotationTimeRef.current * 0.1);
+
+        camera.position.z = 30 * Math.cos(rotationTimeRef.current * 0.1);
+
+        camera.lookAt(new THREE.Vector3(0, steps.length / 2, 0));
+      }
+
+      stepsGroup.children.forEach((stepMesh) => {
+        const label = stepMesh.children[0];
+
+        if (label) label.lookAt(camera.position);
+      });
 
       renderer.render(scene, camera);
     };
+
     animate();
 
-    return () => {
-      clearInterval(interval);
-      renderer.dispose();
-    };
-  }, [stepIndex]);
+    const handleResize = () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
 
-  return <canvas ref={canvasRef} style={{ width: "100%", height: "100vh", display: "block" }} />;
+      camera.updateProjectionMatrix();
+
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      cancelAnimationFrame(animationId);
+
+      renderer.dispose();
+
+      window.removeEventListener("resize", handleResize);
+
+      renderer.domElement.removeEventListener("pointermove", handlePointerMove);
+
+      renderer.domElement.removeEventListener(
+        "pointerleave",
+        handlePointerLeave
+      );
+
+      renderer.domElement.removeEventListener("pointerdown", handlePointerDown);
+
+      renderer.domElement.removeEventListener(
+        "pointermove",
+        handlePointerMoveDrag
+      );
+
+      renderer.domElement.removeEventListener("pointerup", handlePointerUp);
+
+      document.removeEventListener("pointerup", handlePointerUp);
+    };
+  }, []);
+
+  return (
+    <div className="relative w-full bg-gradient-to-br from-slate-900 via-slate-800 to-slate-700">
+      <p className="!w-full p-2 absolute pl-48 container bg-gradient-to-br from-slate-900 via-slate-800 to-slate-700 text-white text-3xl">My Journey so far!!</p>
+     <>
+      <canvas
+        ref={canvasRef}
+        style={{ width: "100%", height: "100vh" }}
+      />
+
+      {tooltipVisible && (
+        <div
+          style={{
+            position: "absolute",
+
+            top: tooltipPosition.y,
+
+            left: tooltipPosition.x,
+
+            transform: "translate(-50%, -100%)",
+
+            backgroundColor: "white",
+
+            color: "black",
+
+            padding: "8px 12px",
+
+            borderRadius: "4px",
+
+            fontSize: "14px",
+
+            pointerEvents: "none",
+
+            zIndex: 1000,
+
+            whiteSpace: "nowrap",
+
+            boxShadow: "0 2px 5px rgba(0,0,0,0.3)",
+
+            transition: "opacity 0.2s",
+          }}
+        >
+          {tooltipText}
+        </div>
+      )}
+      </>
+    </div>
+  );
 };
 
 export default ReactDeveloperJourney;

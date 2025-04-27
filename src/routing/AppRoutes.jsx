@@ -3,23 +3,15 @@ import { Route, Routes } from "react-router-dom";
 import SharedLayout from "../layout/SharedLayout";
 import DeveloperJourney from "../components/Journey/JourneyMap";
 import ReactDeveloperJourney from "../components/Journey/JourneyMap";
-import About from "../pages/About/About";
-// import PrivateRoutes from "../HOC/PrivateRoutes";
+import About from "../pages/About/About"
+import Home from "../pages/Home/Home";
 
-const AppRoutes = () => {
-    // const allPermissions = useSelector((state) => state.auth.allPermissions);
-    // const dispatch = useDispatch()
-    // useEffect(()=>{
-    // dispatch(fetchAllPermissions())
-    // },[dispatch])
-    // const checkPermission = (permissionKey) =>
-    //   allPermissions[permissionKey]?.length > 0;
-  
+const AppRoutes = () => {  
     return (
       <Routes>
   <Route path="/" element={<SharedLayout />}>
-  <Route path="about" element={<About />} />
-    {/* <Route index element={<ReactDeveloperJourney />} /> */}
+  <Route index element={<Home />} />
+    {/* <Route path="/jour" element={<ReactDeveloperJourney />} /> */}
   </Route>
 </Routes>
 

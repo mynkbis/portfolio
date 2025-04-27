@@ -22,8 +22,6 @@ const SharedLayout = () => {
           <div className="flex-1">
             <Outlet />
           </div>
-          <div className="pb-2 pt-8 flex justify-end px-12 text-botpulseFooterText">
-          </div>
         </div>
       </main>
       <div className="relative bg-[#0a192f] text-white">

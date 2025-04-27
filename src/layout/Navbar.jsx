@@ -13,8 +13,8 @@ const Navbar = () => {
       <nav className="flex justify-between items-center py-6 px-8 bg-slate-900 border-b border-teal-400/10">
         {/* Logo */}
         <div className="flex items-center">
-          <div className="w-10 h-10 flex items-center justify-center border-2 border-teal-400 text-white font-bold text-2xl rounded-md bg-teal-400 hover:!text-teal-400 hover:bg-white cursor-pointer hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
-            SB
+          <div className="h-10 flex items-center justify-center border-2 border-teal-400 text-white font-bold text-2xl rounded-md  px-2 hover:!text-teal-400 hover:bg-white cursor-pointer hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
+            Developer
           </div>
         </div>
 

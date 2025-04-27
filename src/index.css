@@ -54,7 +54,6 @@
   html, body, #root {
     margin: 0;
     height: 100%;
-    overflow: hidden;
   }
   canvas {
     display: block;

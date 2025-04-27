@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
   
   const SocialIcons = () => {
     return (
-<div className="hidden fixed left-10 top-[65%] transform -translate-y-1/2 sm:!flex flex-col items-center gap-3 text-gray-400 z-50">
+<div className="hidden fixed left-10 top-[67%] transform -translate-y-1/2 sm:!flex flex-col items-center gap-3 text-gray-400 z-50">
        <Link href="https://github.com" target="_blank" rel="noopener noreferrer">
           <Github size={22} className="hover:text-black transition duration-200" />
         </Link>

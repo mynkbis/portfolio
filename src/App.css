@@ -56,3 +56,187 @@
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%}
 }
+
+@keyframes growLineHorizontal {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 500px; /* Adjust width */
+  }
+}
+
+.animate-grow-line-horizontal {
+  animation: growLineHorizontal 1s ease-in-out forwards;
+}
+
+@keyframes slideUpFade {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
+.animate-slide-up-fade {
+  animation: slideUpFade 1s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 2s ease-in-out forwards;
+}
+@keyframes blinkBounce {
+  0%, 100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-10px);
+    opacity: 0.7;
+  }
+}
+
+.animate-bounce-blink {
+  animation: blinkBounce 1s infinite;
+}
+
+/* Blinking cursor (you already have but if needed) */
+.blinking-cursor {
+  animation: blink 1s steps(2, start) infinite;
+}
+
+@keyframes blink {
+  to {
+    visibility: hidden;
+  }
+}
+
+
+
+
+.add-shadow:hover{
+  box-shadow: 2px 2px 30px white !important;
+}
+
+.add-shadow{
+  box-shadow: 0px 0px 0px black !important;
+   transition: 700ms;
+}
+
+
+/* App.css */
+
+/* Portal container entrance animation */
+.portal-container {
+  animation: zoomIn 2ms ease-out forwards;
+  position: relative;
+}
+
+/* Common styles for all rings */
+.ring {
+  position: absolute;
+  border-radius: 55%;
+  width: 100%;
+  height: 100%;
+  filter: blur(4px);
+  opacity: 0.2;
+  background: linear-gradient(to right, #00bcd4, #4d6be1);
+  animation: spinSlow 10s linear infinite, glowPulse 6s ease-in-out infinite;
+}
+
+/* Each ring a little smaller and different color */
+.ring1 {
+  inset: 0%;
+  width: 80%;
+}
+
+.ring2 {
+  inset: 3%;
+  background: linear-gradient(to right, #ec4899, #a855f7);
+  animation: spinReverse 6s linear infinite, glowPulse 4s ease-in-out infinite;
+  box-shadow: 0px 0px 70px 40px white;
+  border: 1px solid rgb(31, 11, 11);
+}
+
+.ring3 {
+  inset: 0%;
+  background: linear-gradient(to right, #bcc2cc, #06b6d4);
+  animation: spinSlower 12s linear infinite, glowPulse 4s ease-in-out infinite;
+  box-shadow: 0px 0px 70px 40px white;
+  border: 1px solid white;
+}
+
+.ring4 {
+  inset: 0%;
+  background: linear-gradient(to right, #a855f7, #ec4899);
+  animation: spinReverseSlower 18s linear infinite, glowPulse 4s ease-in-out infinite;
+  box-shadow: 0px 0px 40px 20px rgb(86, 42, 197);
+  border: 1px solid white;
+}
+
+.ring5 {
+  inset: 0%;
+  background: linear-gradient(to right, #06bcd4, #42a5db);
+  animation: spinSlowest 12s linear infinite, glowPulse 4s ease-in-out infinite;
+  box-shadow: 0px 0px 70px 20px white;
+}
+
+
+/* Spin animations */
+@keyframes spinSlow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes spinSlower {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes spinSlowest {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes spinReverse {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
+
+@keyframes spinReverseSlower {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
+
+/* Glow pulsing animation */
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.6; }
+  750%{ opacity: 0.2;}
+}
+
+/* Zoom-in animation for portal container */
+@keyframes zoomIn {
+  from {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
