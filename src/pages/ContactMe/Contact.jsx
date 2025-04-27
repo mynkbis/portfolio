@@ -35,14 +35,10 @@ const Contact = () => {
           className="w-full h-full object-cover opacity-90"
         />
       </div>
-      <div className="bg-black absolute opacity-90  w-full h-full"></div>
-
-      
+      <div className=" bg-gradient-to-br from-slate-900 via-slate-800 to-slate-700 absolute opacity-100  w-full h-full"></div>
       <div className="relative z-10 flex flex-col items-center justify-center py-16 px-4">
         <span className="text-5xl md:text-6xl font-bold mb-6 text-center">Get In Touch</span>
-        
         <div className="border-t-2 border-teal-500 w-32 mb-10"></div>
-        
         <div className="text-center mb-12 max-w-2xl">
           <p className="text-xl">
             Have a sweet project in mind or just want to say hi?
@@ -54,7 +50,7 @@ const Contact = () => {
         
         <form onSubmit={handleSubmit} className="w-full max-w-2xl">
           <div className="mb-6">
-            <label htmlFor="name" className="block text-gray-400 uppercase tracking-wide text-sm font-bold mb-2">
+            <label htmlFor="name" className="block text-white/80 uppercase tracking-wide text-sm font-bold mb-2">
               Name
             </label>
             <input
@@ -64,12 +60,12 @@ const Contact = () => {
               value={formData.name}
               onChange={handleChange}
               required
-              className="w-full bg-transparent border border-gray-600 focus:!border-teal-500 px-3 py-2 outline-none transition-colors"
+              className="w-full bg-white rounded-sm h-10 text-teal-500 border border-gray-600 focus:!border-teal-500 px-10 py-2 outline-none"
             />
           </div>
           
           <div className="mb-6">
-            <label htmlFor="email" className="block text-gray-400 uppercase tracking-wide text-sm font-bold mb-2">
+            <label htmlFor="email" className="block text-white/80 uppercase tracking-wide text-sm font-bold mb-2">
               Email
             </label>
             <input
@@ -79,12 +75,12 @@ const Contact = () => {
               value={formData.email}
               onChange={handleChange}
               required
-              className="w-full bg-transparent border-b border-gray-600 focus:border-teal-500 px-3 py-2 outline-none transition-colors"
+                className="w-full bg-white rounded-sm h-10 text-teal-500 border border-gray-600 focus:!border-teal-500 px-10 py-2 outline-none"
             />
           </div>
           
           <div className="mb-6">
-            <label htmlFor="subject" className="block text-gray-400 uppercase tracking-wide text-sm font-bold mb-2">
+            <label htmlFor="subject" className="block text-white/80 uppercase tracking-wide text-sm font-bold mb-2">
               Subject
             </label>
             <input
@@ -94,12 +90,12 @@ const Contact = () => {
               value={formData.subject}
               onChange={handleChange}
               required
-              className="w-full bg-transparent border-b border-gray-600 focus:border-teal-500 px-3 py-2 outline-none transition-colors"
+                className="w-full bg-white rounded-sm h-10 text-teal-500 border border-gray-600 focus:!border-teal-500 px-10 py-2 outline-none"
             />
           </div>
           
           <div className="mb-10">
-            <label htmlFor="message" className="block text-gray-400 uppercase tracking-wide text-sm font-bold mb-2">
+            <label htmlFor="message" className="block text-white/80 uppercase tracking-wide text-sm font-bold mb-2">
               Message
             </label>
             <textarea
@@ -109,14 +105,14 @@ const Contact = () => {
               onChange={handleChange}
               required
               rows="4"
-              className="w-full bg-transparent border-b !border-gray-600 focus:!border-teal-500 px-3 py-2 outline-none transition-colors"
+              className="w-full bg-white rounded-sm border-b !border-gray-600 focus:!border-teal-500 px-3 py-2 outline-none"
             ></textarea>
           </div>
           
           <div className="flex justify-center">
             <button
               type="submit"
-              className="border !border-teal-500 !p-2 rounded-sm text-teal-500 hover:!bg-teal-500 hover:text-white px-8 py-3 uppercase tracking-wider transition-colors duration-300"
+              className="border border-teal-500 !p-2 rounded-sm text-teal-500 hover:!bg-teal-700 hover:text-white px-8 py-3 uppercase tracking-wider duration-300 !bg-teal-500"
             >
               Send Message
             </button>

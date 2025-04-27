@@ -1,7 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import surya from "../../assets/Surya.jpg";
 import user from "../../assets/user.png";
 const About = () => {
+  const [isTouched, setIsTouched] = useState(false);
+
+  const handleTouch = () => {
+    setIsTouched(true);
+  };
+
   return (
     <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-700 text-white min-h-screen p-8 relative mt-0">
       <div className="max-w-6xl pt-10 mx-auto flex flex-col md:!flex-row gap-8 items-start">
@@ -42,8 +48,10 @@ const About = () => {
   <div className="overflow-hidden border-4 add-shadow bg-white rounded-md border-white w-full mx-auto">
     <img 
       src={surya} 
+      onTouchStart={handleTouch}
       alt="Profile" 
-      className="w-full h-full object-cover !grayscale transition-all duration-300 hover:!grayscale-0 cursor-pointer" 
+      className={`w-full h-full object-cover transition-all duration-300 cursor-pointer !grayscale hover:!grayscale-0
+        ${isTouched ? '!grayscale-0' : 'grayscale hover:!grayscale-0'}`}
     />
   </div>
 </div>

@@ -1,26 +1,17 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500">
-  <!-- Background -->
-  <rect width="400" height="500" fill="#332654" />
-  
-  <!-- Main S shape - front face -->
-  <path d="M260,120 C260,80 230,60 180,60 C130,60 100,85 100,120 C100,180 260,200 260,280 C260,330 220,360 170,360 C120,360 80,330 80,280" 
-        fill="#FFD233" stroke="#FFD233" stroke-width="50" stroke-linecap="round" stroke-linejoin="round" />
-  
-  <!-- 3D shadow/side part -->
-  <path d="M260,120 C260,80 230,60 180,60 C130,60 100,85 100,120 C100,180 260,200 260,280 C260,330 220,360 170,360 C120,360 80,330 80,280" 
-        fill="none" stroke="#D8365C" stroke-width="50" stroke-linecap="round" stroke-linejoin="round"
-        transform="translate(25, 25)" />
-  
-  <!-- Gradient overlay to create blending -->
-  <path d="M260,120 C260,80 230,60 180,60 C130,60 100,85 100,120 C100,180 260,200 260,280 C260,330 220,360 170,360 C120,360 80,330 80,280" 
-        fill="none" stroke="url(#gradientBlend)" stroke-width="50" stroke-linecap="round" stroke-linejoin="round" />
-        
-  <!-- Gradient definitions -->
-  <defs>
-    <linearGradient id="gradientBlend" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#FFD233" stop-opacity="0" />
-      <stop offset="45%" stop-color="#FF8B3E" stop-opacity="0.7" />
-      <stop offset="100%" stop-color="#D8365C" stop-opacity="0.9" />
-    </linearGradient>
-  </defs>
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 100 100">
+  <!-- Background with rounded corners -->
+  <rect width="100" height="100" fill="#0f172a" rx="50%" ry="50%" />
+
+  <!-- Centered Text -->
+  <text 
+    x="50%" 
+    y="50%" 
+    fill="#38bdf8" 
+    font-size="48" 
+    font-family="Arial, sans-serif" 
+    dy=".35em" 
+    text-anchor="middle"
+  >
+    SB
+  </text>
 </svg>
