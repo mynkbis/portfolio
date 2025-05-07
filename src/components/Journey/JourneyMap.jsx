@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
+import bannerMine from "../../assets/Banner.png";
 
 import * as THREE from "three";
 
@@ -34,21 +35,21 @@ const ReactDeveloperJourney = () => {
 
   const journeyData = [
 
-    { level: "Secondary", institution: "KV", percentage: 76, color: "#1E3A8A" },         // Navy Blue
+    { level: "Secondary (2008)", institution: "KV", percentage: 76, color: "#1E3A8A" },         // Navy Blue
 
-    { level: "Senior Secondary", institution: "KV", percentage: 66, color: "#1D4ED8" },  // Deeper Navy
+    { level: "Sr. Secondary (2010)", institution: "KV", percentage: 66, color: "#1D4ED8" },  // Deeper Navy
 
-    { level: "B.Tech (ECE)", institution: "UTU", percentage: 70, color: "#16A34A" },     // Teal-700
+    { level: "B.Tech (ECE-2014)", institution: "UTU", percentage: 70, color: "#16A34A" },     // Teal-700
 
-    { company: "MPS", role: "QA", period: "1.5 years", color: "#34D399" },               // Teal-600
+    { company: "MPS (2015)", role: "QA", period: "1.5 years", color: "#34D399" },               // Teal-600
 
-    { company: "SCUF", role: "Legal Executive", period: "1.6 years", color: "#FBBF24" }, // Teal-500
+    { company: "SCUF (2020)", role: "Legal Executive", period: "1.6 years", color: "#FBBF24" }, // Teal-500
 
-    { company: "DFS", role: "Manager", period: "1.5 years", color: "#F59E0B" },          // Teal-400
+    { company: "SOAL (2021)", role: "Product Engineering", color: "#F97316" },                  // Teal-300
+    
+    { company: "DFS (2022)", role: "Manager", period: "1.5 years", color: "#F59E0B" },          // Teal-400
 
-    { company: "SOAL", role: "Product Engineering", color: "#F97316" },                  // Teal-300
-
-    { company: "Softprodigy", role: "Associate Software Engineer", period: "Present (~3 years)", color: "#DC2626" }, // Teal-200
+    { company: "Softprodigy (Present)", role: "Associate Software Engineer", period: " (~3 years)", color: "#DC2626" }, // Teal-200
 
   ];
 
