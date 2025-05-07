@@ -118,7 +118,7 @@ export default function Banner({hasScrolled}) {
           className="w-full h-full object-cover opacity-40"
         />
       </div>
-          <div className="bg-black absolute opacity-30  w-full h-full"></div>
+          <div className="bg-black absolute opacity-50  w-full h-full"></div>
         {!startTyping && (
           <div
             className="w-0 h-[2px] bg-white animate-grow-line-horizontal shadow-lg transition-all duration-1000 ease-out"
@@ -132,13 +132,13 @@ export default function Banner({hasScrolled}) {
         {startTyping && (
           <div className="flex flex-col items-center">
             {/* Name typing */}
-            <h1 className="font-bold text-white/80 text-center tracking-wider animate-slide-up-fade pb-4">
+            <h1 className="font-bold text-white text-center tracking-wider animate-slide-up-fade pb-4">
               <span className="text-6xl md:text-[8rem] glow-text">{getNameContent()}</span>
             </h1>
 
             {/* Job title typing */}
             {typedJobTitle && (
-              <h2 className="font-bold text-white/80 text-center tracking-wider animate-slide-up-fade">
+              <h2 className="font-bold text-white text-center tracking-wider animate-slide-up-fade">
                 <span className="text-3xl md:text-[2.8rem] shadow-md ">
                   {typedJobTitle}
                   {!jobTypingDone && <span className="blinking-cursor">|</span>}
