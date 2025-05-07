@@ -183,6 +183,12 @@ const ReactDeveloperJourney = () => {
             // 9-tap Gaussian blur (sigma ~= 3.0)
 
             sum += texture2D(tDiffuse, vec2(vUv.x - 4.0*h, vUv.y)) * 0.051;
+   sum += texture2D(tDiffuse, vec2(vUv.x - 4.0*h, vUv.y)) * 0.01;
+   sum += texture2D(tDiffuse, vec2(vUv.x - 4.0*h, vUv.y)) * 0.1;
+   sum += texture2D(tDiffuse, vec2(vUv.x - 4.0*h, vUv.y)) * 0.051;
+   sum += texture2D(tDiffuse, vec2(vUv.x - 4.0*h, vUv.y)) * 0.051;
+   sum += texture2D(tDiffuse, vec2(vUv.x - 4.0*h, vUv.y)) * 0.051;
+   sum += texture2D(tDiffuse, vec2(vUv.x - 4.0*h, vUv.y)) * 0.051;
 
             sum += texture2D(tDiffuse, vec2(vUv.x - 3.0*h, vUv.y)) * 0.0918;
 
