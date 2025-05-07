@@ -74,7 +74,7 @@ const Skills = () => {
                             <h2 className="text-2xl font-bold uppercase tracking-wider">Design FrameWorks & Libraries</h2>
                         </div>
 
-                        <div className="space-y-3 grid grid-cols-2 sm:grid-cols-3">
+                        <div className="space-y-3 grid grid-cols-1 sm:grid-cols-3">
                             {[{ name: 'Tailwind CSS', icon: '🌪️' },
                             { name: 'Chakra UI', icon: '✨' },
                             { name: 'Material UI', icon: 'MUI' },
@@ -99,7 +99,7 @@ const Skills = () => {
                                     <Wrench className="text-white/80 mr-4" size={24} />
                                     <h2 className="text-2xl font-bold uppercase tracking-wider">Tools</h2>
                                 </div>
-                                <ul className="space-y-3 grid grid-cols-2 sm:grid-cols-3">
+                                <ul className="space-y-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
                                     {[
                                         'Git + Github',
                                         'Command Line',
@@ -130,7 +130,7 @@ const Skills = () => {
                                     <h2 className="text-2xl font-bold uppercase tracking-wider">Knowledge</h2>
                                 </div>
 
-                                <ul className="space-y-3 grid grid-cols-3 gap-4">
+                                <ul className="space-y-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
                                     {[
                                         'Responsive Design',
                                         'Cross-Browser Compatibility',
