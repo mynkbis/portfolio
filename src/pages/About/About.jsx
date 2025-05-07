@@ -22,7 +22,7 @@ const About = () => {
           <div className="!border-t-4 !border-teal-500 w-40  my-6"></div>
           
           <p className="mb-4">
-            <span className="font-bold">With 3 years of professional experience, I've developed and designed projects ranging from automation dashboards and licensing platforms to social media apps and e-commerce websites. I specialize in crafting intuitive, responsive user experiences with React.js, Next.js, Node.js, and MongoDB, always blending clean code with thoughtful design.
+            <span className="font-normal text-white">With 3 years of professional experience, I've developed and designed projects ranging from automation dashboards and licensing platforms to social media apps and e-commerce websites. I specialize in crafting intuitive, responsive user experiences with React.js, Next.js, Node.js, and MongoDB, always blending clean code with thoughtful design.
             </span>
           </p>
           <br/>
@@ -32,13 +32,13 @@ const About = () => {
           </p>
           <br/>
           <p>
-            <span className="font-bold">I'm constantly learning — from new frameworks to best practices — and I see every project as an opportunity to grow, collaborate, and create something meaningful. Working with people who are passionate and curious brings out the best in me.
+            <span className="font-normal text-white">I'm constantly learning — from new frameworks to best practices — and I see every project as an opportunity to grow, collaborate, and create something meaningful. Working with people who are passionate and curious brings out the best in me.
             </span>
             <br/>
             <br/>
           </p>
           <p>
-            <span className="font-bold">
+            <span className="font-normal text-white">
               When I'm not coding, you'll find me exploring new tech, diving into AI/ML projects, traveling, or simply enjoying a good playlist.
             </span>
           </p>
