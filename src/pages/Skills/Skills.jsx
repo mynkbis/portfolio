@@ -55,7 +55,7 @@ const Skills = () => {
                         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6  gap-6">
                             {techStack.map((tech, index) => (
                                 <div key={index} className="flex items-center justify-center">
-                                <div className="flip-card w-24 h-24">
+                                <div className="flip-card w-24 h-24 cursor-pointer">
                                   <div className="flip-card-inner">
                                     <div className="flip-card-front rounded-full bg-white border border-gray-700 flex items-center justify-center">
                                       <div className="flex flex-col items-center justify-center">
