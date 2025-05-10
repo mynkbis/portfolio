@@ -10,11 +10,14 @@ const Contact = lazy(() => import('../ContactMe/Contact'));
 const Home = () => {
   const [hasScrolled, setHasScrolled] = useState(false);
 
-  // Track the scroll event to stop blinking
+  // Track the scroll event
   useEffect(() => {
-    console.log("useEffect running");  // Log to confirm if the effect is running
     const handleScroll = () => {
-      console.log('scroll event detected', window.scrollY);  // Log scroll position
+      if (window.scrollY > 50) {
+        setHasScrolled(true);
+      } else {
+        setHasScrolled(false);
+      }
     };
   
     window.addEventListener('scroll', handleScroll);
@@ -28,11 +31,26 @@ const Home = () => {
     <div className='overflow-x-hidden'>
       <Suspense fallback={<div>Loading...</div>}>
         <Banner hasScrolled={hasScrolled} />
-        <About />
-        <WhatIDo />
-        <ReactDeveloperJourney />
-        <Skills />
-        <Contact />
+        
+        {/* Add id attributes to each section for scrolling */}
+        <div id="about">
+          <About />
+        </div>
+        
+        <div id="experience">
+          <ReactDeveloperJourney />
+        </div>
+        
+        <div id="work">
+          <WhatIDo />
+        </div>
+        <div id="skills">
+          <Skills />
+        </div>
+        
+        <div id="contact">
+          <Contact />
+        </div>
       </Suspense>
     </div>
   );
