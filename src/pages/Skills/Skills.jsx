@@ -55,13 +55,24 @@ const Skills = () => {
                         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6  gap-6">
                             {techStack.map((tech, index) => (
                                 <div key={index} className="flex items-center justify-center">
-                                    <div className="border border-gray-700 group bg-white cursor-pointer rounded-full w-24 h-24 flex items-center justify-center hover:border-teal-500 transition-colors duration-300 hover:add-shadow">
-                                        <div className="flex flex-col items-center justify-center ">
-                                            <div className='text-gray-300 group-hover:text-teal-800' >{tech.icon}</div>
-                                            <span className="text-sm text-gray-300 font-bold group-hover:text-teal-800">{tech.name}</span>
-                                        </div>
+                                <div className="flip-card w-24 h-24">
+                                  <div className="flip-card-inner">
+                                    <div className="flip-card-front rounded-full bg-white border border-gray-700 flex items-center justify-center">
+                                      <div className="flex flex-col items-center justify-center">
+                                        <div className="text-gray-300">{tech.icon}</div>
+                                        <span className="text-sm text-gray-300 font-bold">{tech.name}</span>
+                                      </div>
                                     </div>
+                                    <div className="flip-card-back rounded-full bg-teal-600 text-white flex items-center justify-center">
+                                      <div className="flex flex-col items-center justify-center">
+                                        <div>{tech.icon}</div>
+                                        <span className="text-sm font-bold">{tech.name}</span>
+                                      </div>
+                                    </div>
+                                  </div>
                                 </div>
+                              </div>
+                              
                             ))}
                         </div>
                     </div>
