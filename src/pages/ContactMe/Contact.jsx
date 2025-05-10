@@ -173,7 +173,7 @@ const Contact = () => {
             ></textarea>
             {error.message && <span className="text-red-700 text-sm">{error.message}</span>}
             {error.apiError && <span className="text-red-700 text-sm">{error.apiError}</span>}
-            {successShow && <span className='!text-teal-900'>{success}</span>}
+            {successShow && <span className='!text-white'>{success}</span>}
           </div>
 
           <div className="flex justify-center">
