@@ -115,7 +115,7 @@ export default function Banner({hasScrolled}) {
         <img 
           src={bannerMine} 
           alt="Aboutme" 
-          className="w-full h-full object-cover opacity-40 !blur-sm"
+          className="w-full h-full object-cover opacity-40 !blur-xs"
         />
       </div>
           <div className="bg-black absolute opacity-50  w-full h-full"></div>
