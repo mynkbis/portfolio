@@ -20,7 +20,7 @@ const SharedLayout = () => {
         </div>
       </main>
       <div className="relative bg-[#0a192f] text-white">
-      <div className="hidden lg:flex">
+      <div className="hidden md:flex">
       <SocialIcons />
       <EmailLink/>
       </div>
