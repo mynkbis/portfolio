@@ -30,7 +30,9 @@ const Home = () => {
   return (
     <div className='overflow-x-hidden'>
       <Suspense fallback={<div>Loading...</div>}>
+      <div id="banner">
         <Banner hasScrolled={hasScrolled} />
+        </div>
         
         {/* Add id attributes to each section for scrolling */}
         <div id="about">

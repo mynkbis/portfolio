@@ -1,27 +1,19 @@
 import React, { useState } from 'react';
-import { Button } from '../components/ui/button';
-import { Link } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import { ArrowBigDown, Menu, X } from 'lucide-react';
+import { scrollToSection } from '../../utils/scollFuntion';
+import surya from "../assets/SuryaBisht_Resume.pdf"
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
-  const scrollToSection = (sectionId) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-      setIsMenuOpen(false);
-    }
-  };
-
   return (
     <div className="w-full bg-slate-900 relative z-50">
       <nav className="flex justify-between items-center py-6 px-8 bg-slate-900 border-b border-teal-400/10">
         {/* Logo */}
         <div className="flex items-center">
-          <div className="h-10 flex bg-white/40 items-center justify-center border-2 border-teal-400 !text-white/90 font-bold text-2xl rounded-md  px-2 hover:!text-teal-400 hover:bg-white cursor-pointer hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
+          <div className="h-10 flex bg-white/40 items-center justify-center border-2 border-teal-400 !text-white/90 font-bold text-2xl rounded-md  px-2 hover:!text-teal-400 hover:bg-white cursor-pointer hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300" onClick={()=>{scrollToSection('banner')}}>
             SB
           </div>
         </div>
@@ -58,7 +50,10 @@ const Navbar = () => {
           >
             Contact
           </a>
-          <Button variant="outline" className="border border-teal-400 !text-white/90 bg-transparent hover:!text-teal-400 text-sm">Resume</Button>
+          <a variant="outline" className="border border-teal-400 !text-white/90 bg-transparent hover:!text-teal-400 text-sm flex" 
+            href={surya} download="SuryaBisht_Resume.pdf">Resume
+            <ArrowBigDown fill='teal' className='text-white' size={22}/>
+          </a>
         </div>
 
         {/* Hamburger Icon */}
@@ -104,13 +99,15 @@ const Navbar = () => {
         >
           Contact
         </a>
-        <Button
+        <a
           variant="outline"
-          className="border border-teal-400 !text-white/90 bg-transparent hover:!text-teal-400 text-sm"
+          className="border border-teal-400 !text-white/90 bg-transparent hover:!text-teal-400 text-sm flex"
           onClick={toggleMenu}
+          href={surya} download="SuryaBisht_Resume.pdf"
         >
           Resume
-        </Button>
+          <ArrowBigDown fill='teal' className='text-white' size={18}/>
+        </a>
       </div>
     </div>
   );

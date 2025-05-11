@@ -3,6 +3,7 @@ import surya from "../../assets/Surya.jpg";
 import AnimatedPortalPopup from "../Modals/AnimatedModal";
 import { ArrowDown } from "lucide-react";
 import bannerMine from "../../assets/Banner.png";
+import { scrollToSection } from "../../../utils/scollFuntion";
 export default function Banner({hasScrolled}) {
   const [typedText, setTypedText] = useState("");
   const [typedJobTitle, setTypedJobTitle] = useState("");
@@ -152,9 +153,10 @@ export default function Banner({hasScrolled}) {
         {jobTypingDone && (
   <div className="absolute bottom-[15%]">
     <div
-      className={`rounded-full p-3 bg-teal-400 transition-all duration-300 ${
+      className={`rounded-full p-3 bg-teal-400 transition-all duration-300 cursor-pointer ${
         typingCompleted && !hasScrolled ? "animate-bounce-blink" : ""
       }`}
+        onClick={() => scrollToSection('about')} 
     >
       <ArrowDown className="text-white" />
     </div>

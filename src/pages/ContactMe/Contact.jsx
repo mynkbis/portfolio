@@ -104,7 +104,7 @@ const Contact = () => {
           className="w-full h-full object-cover opacity-90"
         />
       </div>
-      <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-700 absolute opacity-100 w-full h-full"></div>
+      <div className="bg-gradient-to-br from-slate-600 via-slate-900 to-slate-900 absolute opacity-90 w-full h-full"></div>
       <div className="relative z-10 flex flex-col items-center justify-center py-16 px-4">
         <span className="text-5xl md:text-6xl font-normal mb-6 text-center">Let’s Work Together</span>
         <div className="border-t-2 border-teal-500 w-32 mb-10"></div>

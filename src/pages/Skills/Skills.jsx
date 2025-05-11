@@ -32,18 +32,16 @@ const Skills = () => {
             {/* Background Image Section */}
             <div className="absolute inset-0 z-0">
                 <img
-                    src={skillsForMe}
+                    src={"https://shethink.in/wp-content/uploads/2021/07/react.js-img.png"}
                     alt="Aboutme"
-                    className="w-full h-full object-cover opacity-60" // Adjusted opacity here
+                    className="w-full h-full object-cover !blur-[2px] opacity-80" // Adjusted opacity here
                 />
             </div>
             {/* Dark Overlay */}
             <div className="bg-black absolute inset-0 opacity-90"></div>
-
             <div className="max-w-6xl mx-auto p-8 text-white z-20 relative">
                 <span className="text-6xl text-center !text-white/80 font-bold mb-4">Skills</span>
                 <div className="border-t-2 border-teal-500 w-32 mb-16"></div>
-
                 <div className="flex flex-col gap-10">
                     {/* Development Section */}
                     <div>
@@ -51,58 +49,66 @@ const Skills = () => {
                             <Settings className="text-white/80 mr-4" size={24} />
                             <h2 className="text-2xl font-bold uppercase tracking-wider">Development</h2>
                         </div>
-
                         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6  gap-6">
                             {techStack.map((tech, index) => (
                                 <div key={index} className="flex items-center justify-center">
-                                <div className="flip-card w-24 h-24 cursor-pointer">
-                                  <div className="flip-card-inner">
-                                    <div className="flip-card-front rounded-full bg-white border border-gray-700 flex items-center justify-center">
-                                      <div className="flex flex-col items-center justify-center">
-                                        <div className="text-gray-300">{tech.icon}</div>
-                                        <span className="text-sm text-gray-300 font-bold">{tech.name}</span>
-                                      </div>
+                                    <div className="flip-card w-24 h-24 cursor-pointer">
+                                        <div className="flip-card-inner">
+                                            <div className="flip-card-front rounded-full bg-white border border-gray-700 flex items-center justify-center">
+                                                <div className="flex flex-col items-center justify-center">
+                                                    <div className="text-gray-300">{tech.icon}</div>
+                                                    <span className="text-sm text-gray-300 font-bold">{tech.name}</span>
+                                                </div>
+                                            </div>
+                                            <div className="flip-card-back rounded-full bg-teal-600 text-white flex items-center justify-center">
+                                                <div className="flex flex-col items-center justify-center">
+                                                    <div>{tech.icon}</div>
+                                                    <span className="text-sm font-bold">{tech.name}</span>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div className="flip-card-back rounded-full bg-teal-600 text-white flex items-center justify-center">
-                                      <div className="flex flex-col items-center justify-center">
-                                        <div>{tech.icon}</div>
-                                        <span className="text-sm font-bold">{tech.name}</span>
-                                      </div>
-                                    </div>
-                                  </div>
                                 </div>
-                              </div>
-                              
+
                             ))}
                         </div>
                     </div>
-
-
                     {/* Design Section */}
                     <div>
                         <div className="flex items-center mb-8">
                             <Palette className="text-white/80 mr-4" size={24} />
                             <h2 className="text-2xl font-bold uppercase tracking-wider">Design FrameWorks & Libraries</h2>
                         </div>
-
-                        <div className="space-y-3 grid grid-cols-1 sm:grid-cols-3">
-                            {[{ name: 'Tailwind CSS', icon: '🌪️' },
-                            { name: 'Chakra UI', icon: '✨' },
-                            { name: 'Material UI', icon: 'MUI' },
-                            { name: 'Ant Design', icon: 'Ant' },
-                            { name: 'Bootstrap', icon: 'B' },
-                            { name: 'Shadcn UI', icon: 'S' },
-                            { name: 'Radix UI', icon: 'R' }]
-                                .map((tool, index) => (
-                                    <div key={index} className="h-10 flex gap-4 border border-teal-400 hover:border-teal-500 transition-colors duration-300">
-                                        <Check className="text-white/80 mr-4" size={24} />
-                                        <span className="text-lg font-medium">{tool.name}</span>
-                                        <span className="text-lg font-medium">{tool.icon}</span>
-                                        <br />
+                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6  gap-6">
+                            {[
+                                { name: 'Tailwind CSS', icon: '🌪️' },
+                                { name: 'Chakra UI', icon: '✨' },
+                                { name: 'Material UI', icon: '🎨' },
+                                { name: 'Ant Design', icon: '🐜' },
+                                { name: 'Bootstrap', icon: '🅱️' },
+                                { name: 'Shadcn UI', icon: '🔧' },
+                                { name: 'Radix UI', icon: '📐' }
+                            ].map((tool, index) => (
+                                <div key={index} className="flex items-center justify-center">
+                                    <div className="flip-card w-24 h-24 cursor-pointer">
+                                        <div className="flip-card-inner">
+                                            <div className="flip-card-front rounded-full bg-white border border-gray-700 flex items-center justify-center">
+                                                <div className="flex flex-col items-center justify-center">
+                                                    <div className="text-gray-300 text-2xl">{tool.icon}</div>
+                                                    <span className="text-sm text-gray-300 font-bold">{tool.name}</span>
+                                                </div>
+                                            </div>
+                                            <div className="flip-card-back rounded-full bg-teal-600 text-white flex items-center justify-center">
+                                                <div className="flex flex-col items-center justify-center">
+                                                    <div className="text-2xl">{tool.icon}</div>
+                                                    <span className="text-sm font-bold">{tool.name}</span>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                ))}
+                                </div>
+                            ))}
                         </div>
-
                         {/* Tools Section */}
                         <div className='flex flex-col justify-between mt-10'>
                             <div className='mb-8'>
