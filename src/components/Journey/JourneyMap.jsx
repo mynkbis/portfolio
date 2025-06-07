@@ -25,9 +25,9 @@ const ReactDeveloperJourney = () => {
   const [tooltipText, setTooltipText] = useState("");
 
   const journeyData = [
-    { level: "Secondary (2008)", institution: "KV", percentage: 76, color: "#1E3A8A" },
-    { level: "Sr. Secondary (2010)", institution: "KV", percentage: 66, color: "#1D4ED8" },
-    { level: "B.Tech (ECE-2014)", institution: "UTU", percentage: 70, color: "#16A34A" },
+    { level: "Secondary(2008)", institution: "KV", percentage: 76, color: "#1E3A8A" },
+    { level: "Sr.Secondary(2010)", institution: "KV", percentage: 66, color: "#1D4ED8" },
+    { level: "B.Tech(ECE-2014)", institution: "UTU", percentage: 70, color: "#16A34A" },
     { company: "MPS (2015-2017)", role: "QA", period: "1.5 years", color: "#34D399" },
     { company: "SCUF (2020-2022)", role: "Legal Executive", period: "1.6 years", color: "#FBBF24" },
     { company: "SOAL (2021-2022)", role: "Product Engineering", color: "#F97316" },
@@ -70,20 +70,21 @@ const ReactDeveloperJourney = () => {
       const aspectRatio = dimensions.width / dimensions.height;
       const isPortrait = aspectRatio < 1;
       
-      if (isMobile) {
-        return {
-          fov: isPortrait ? 75 : 65,
-          cameraDistance: isPortrait ? 45 : 38,
-          radius: isPortrait ? 7 : 9,
-          stepWidth: isPortrait ? 2.5 : 3.5,
-          stepHeight: 0.7,
-          stepDepth: isPortrait ? 1.2 : 1.6,
-          labelSize: isPortrait ? 2.2 : 2.8,
-          labelHeight: 0.5,
-          fontSize: isPortrait ? 12 : 14,
-          canvasWidth: isPortrait ? 160 : 190,
-          canvasHeight: isPortrait ? 28 : 32
-        };
+     if (isMobile) {
+  return {
+    // fov: isPortrait ? 75 : 65,
+    cameraDistance: isPortrait ? 45 : 38,
+    radius: isPortrait ? 7 : 9,
+    stepWidth: isPortrait ? 2.5 : 3.5,
+    stepHeight: 0.7,
+    stepDepth: isPortrait ? 1.2 : 1.6,
+    labelSize: 14,
+    labelHeight:.8,
+    fontSize: 10,
+    // Updated canvas dimensions
+    canvasWidth: isPortrait ? 240 : 220,  // Increased width
+    canvasHeight: isPortrait ? 16 : 20    // Decreased height
+  }
       } else if (isTablet) {
         return {
           fov: isPortrait ? 65 : 60,
