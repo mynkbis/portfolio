@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
-import bannerMine from "../../assets/Banner.png";
 import * as THREE from "three";
+
 const ReactDeveloperJourney = () => {
   const isHoveredRef = useRef(false);
   const hoveredStepRef = useRef(null);
@@ -9,145 +9,236 @@ const ReactDeveloperJourney = () => {
   const [stepIndex, setStepIndex] = useState(0);
   const lastX = useRef(0);
   const rotationTimeRef = useRef(0);
+  
+  // Responsive state
+  const [isMobile, setIsMobile] = useState(false);
+  const [isTablet, setIsTablet] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
+  const [dimensions, setDimensions] = useState({
+    width: typeof window !== 'undefined' ? window.innerWidth : 1920,
+    height: typeof window !== 'undefined' ? window.innerHeight : 1080
+  });
+  
   // Tooltip state
   const [tooltipVisible, setTooltipVisible] = useState(false);
   const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
   const [tooltipText, setTooltipText] = useState("");
+
   const journeyData = [
-    { level: "Secondary (2008)", institution: "KV", percentage: 76, color: "#1E3A8A" },         // Navy Blue
-    { level: "Sr. Secondary (2010)", institution: "KV", percentage: 66, color: "#1D4ED8" },  // Deeper Navy
-    { level: "B.Tech (ECE-2014)", institution: "UTU", percentage: 70, color: "#16A34A" },     // Teal-700
-    { company: "MPS (2015)", role: "QA", period: "1.5 years", color: "#34D399" },               // Teal-600
-    { company: "SCUF (2020)", role: "Legal Executive", period: "1.6 years", color: "#FBBF24" }, // Teal-500
-    { company: "SOAL (2021)", role: "Product Engineering", color: "#F97316" },                  // Teal-300
-    { company: "DFS (2022)", role: "Manager", period: "1.5 years", color: "#F59E0B" },          // Teal-400
-    { company: "Softprodigy (Present)", role: "Associate Software Engineer", period: " (~3 years)", color: "#DC2626" }, // Teal-200
+    { level: "Secondary (2008)", institution: "KV", percentage: 76, color: "#1E3A8A" },
+    { level: "Sr. Secondary (2010)", institution: "KV", percentage: 66, color: "#1D4ED8" },
+    { level: "B.Tech (ECE-2014)", institution: "UTU", percentage: 70, color: "#16A34A" },
+    { company: "MPS (2015-2017)", role: "QA", period: "1.5 years", color: "#34D399" },
+    { company: "SCUF (2020-2022)", role: "Legal Executive", period: "1.6 years", color: "#FBBF24" },
+    { company: "SOAL (2021-2022)", role: "Product Engineering", color: "#F97316" },
+    { company: "DFS (2022-2023)", role: "Manager", period: "1.5 years", color: "#F59E0B" },
+    { company: "Softprodigy (2023-Present)", role: "Associate Software Engineer", period: " (3+ years)", color: "#DC2626" },
   ];
+
+  // Check if device is mobile and update dimensions
+  useEffect(() => {
+    const checkDevice = () => {
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      const mobile = width < 768;
+      const tablet = width >= 768 && width < 1024;
+      const desktop = width >= 1024;
+      
+      setIsMobile(mobile);
+      setIsTablet(tablet);
+      setIsDesktop(desktop);
+      
+      setDimensions({
+        width: width,
+        height: height
+      });
+    };
+
+    checkDevice();
+    window.addEventListener('resize', checkDevice);
+    
+    return () => {
+      window.removeEventListener('resize', checkDevice);
+    };
+  }, []);
+
   useEffect(() => {
     const scene = new THREE.Scene();
-    // Create a background with an external image and blur effect
+    
+    // Enhanced responsive camera settings
+    const getResponsiveSettings = () => {
+      const aspectRatio = dimensions.width / dimensions.height;
+      const isPortrait = aspectRatio < 1;
+      
+      if (isMobile) {
+        return {
+          fov: isPortrait ? 75 : 65,
+          cameraDistance: isPortrait ? 45 : 38,
+          radius: isPortrait ? 7 : 9,
+          stepWidth: isPortrait ? 2.5 : 3.5,
+          stepHeight: 0.7,
+          stepDepth: isPortrait ? 1.2 : 1.6,
+          labelSize: isPortrait ? 2.2 : 2.8,
+          labelHeight: 0.5,
+          fontSize: isPortrait ? 12 : 14,
+          canvasWidth: isPortrait ? 160 : 190,
+          canvasHeight: isPortrait ? 28 : 32
+        };
+      } else if (isTablet) {
+        return {
+          fov: isPortrait ? 65 : 60,
+          cameraDistance: isPortrait ? 38 : 32,
+          radius: isPortrait ? 9 : 11,
+          stepWidth: isPortrait ? 3.5 : 4.5,
+          stepHeight: 0.9,
+          stepDepth: isPortrait ? 1.6 : 2,
+          labelSize: isPortrait ? 3 : 3.5,
+          labelHeight: 0.7,
+          fontSize: 15,
+          canvasWidth: isPortrait ? 190 : 210,
+          canvasHeight: isPortrait ? 32 : 36
+        };
+      } else { // Desktop
+        return {
+          fov: 60,
+          cameraDistance: 30,
+          radius: 12,
+          stepWidth: 5,
+          stepHeight: 1,
+          stepDepth: 2,
+          labelSize: 4,
+          labelHeight: 1,
+          fontSize: 16,
+          canvasWidth: 220,
+          canvasHeight: 40
+        };
+      }
+    };
+
+    const settings = getResponsiveSettings();
+
+    // Create a background with fallback color
     const textureLoader = new THREE.TextureLoader();
     const bgTexture = textureLoader.load(
       "",
-      // Callback for when the texture is loaded - apply blur effect
       (texture) => {
         console.log("Background image loaded successfully");
-        // Create a render target to apply post-processing
         createBlurredBackground(texture);
       },
-      // Optional callback for loading progress
       undefined,
-      // Optional callback for loading error
       (err) => {
         console.error("Error loading background image:", err);
-        // Fallback to a color if image fails to load
         scene.background = new THREE.Color(0x000000);
       }
     );
-    // Setup for the blur effect
+
     let blurredTexture = null;
     const createBlurredBackground = (originalTexture) => {
-      // Size for the render target (lower = more blurry but better performance)
-      const rtWidth = 8000;
-      const rtHeight = 6000;
-      // Create a render target for the blur pass
+      const rtWidth = isMobile ? 2048 : isTablet ? 4096 : 8192;
+      const rtHeight = isMobile ? 1536 : isTablet ? 3072 : 6144;
+      
       const renderTarget = new THREE.WebGLRenderTarget(rtWidth, rtHeight, {
         minFilter: THREE.LinearFilter,
         magFilter: THREE.LinearFilter,
         format: THREE.RGBAFormat,
         stencilBuffer: false
       });
-      // Create a scene just for the blur effect
+
       const blurScene = new THREE.Scene();
       const blurCamera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-      // Gaussian blur shader for horizontal pass
+
       const hBlurMaterial = new THREE.ShaderMaterial({
         uniforms: {
           tDiffuse: { value: originalTexture },
           h: { value: 1.0 / rtWidth }
         },
         vertexShader: `
-varying vec2 vUv;
-void main() {
-vUv = uv;
-gl_Position = vec4(position, 1.0);
-}
-`,
+          varying vec2 vUv;
+          void main() {
+            vUv = uv;
+            gl_Position = vec4(position, 1.0);
+          }
+        `,
         fragmentShader: `
-uniform sampler2D tDiffuse;
-uniform float h;
-varying vec2 vUv;
-void main() {
-vec4 sum = vec4(0.0);
-// 9-tap Gaussian blur (sigma ~= 3.0)
-sum += texture2D(tDiffuse, vec2(vUv.x - 4.0*h, vUv.y)) * 0.051;
-sum += texture2D(tDiffuse, vec2(vUv.x - 4.0*h, vUv.y)) * 0.01;
-sum += texture2D(tDiffuse, vec2(vUv.x - 4.0*h, vUv.y)) * 0.1;
-sum += texture2D(tDiffuse, vec2(vUv.x - 4.0*h, vUv.y)) * 0.051;
-sum += texture2D(tDiffuse, vec2(vUv.x - 4.0*h, vUv.y)) * 0.051;
-sum += texture2D(tDiffuse, vec2(vUv.x - 4.0*h, vUv.y)) * 0.051;
-sum += texture2D(tDiffuse, vec2(vUv.x - 4.0*h, vUv.y)) * 0.051;
-sum += texture2D(tDiffuse, vec2(vUv.x - 3.0*h, vUv.y)) * 0.0918;
-gl_FragColor = sum;
-}
-`
+          uniform sampler2D tDiffuse;
+          uniform float h;
+          varying vec2 vUv;
+          void main() {
+            vec4 sum = vec4(0.0);
+            sum += texture2D(tDiffuse, vec2(vUv.x - 4.0*h, vUv.y)) * 0.051;
+            sum += texture2D(tDiffuse, vec2(vUv.x - 3.0*h, vUv.y)) * 0.09;
+            sum += texture2D(tDiffuse, vec2(vUv.x - 2.0*h, vUv.y)) * 0.12;
+            sum += texture2D(tDiffuse, vec2(vUv.x - 1.0*h, vUv.y)) * 0.15;
+            sum += texture2D(tDiffuse, vec2(vUv.x, vUv.y)) * 0.16;
+            sum += texture2D(tDiffuse, vec2(vUv.x + 1.0*h, vUv.y)) * 0.15;
+            sum += texture2D(tDiffuse, vec2(vUv.x + 2.0*h, vUv.y)) * 0.12;
+            sum += texture2D(tDiffuse, vec2(vUv.x + 3.0*h, vUv.y)) * 0.09;
+            sum += texture2D(tDiffuse, vec2(vUv.x + 4.0*h, vUv.y)) * 0.051;
+            gl_FragColor = sum;
+          }
+        `
       });
-      // Create render target for the vertical pass
+
       const renderTarget2 = new THREE.WebGLRenderTarget(rtWidth, rtHeight, {
         minFilter: THREE.LinearFilter,
         magFilter: THREE.LinearFilter,
         format: THREE.RGBAFormat,
         stencilBuffer: false
       });
-      // Gaussian blur shader for vertical pass
+
       const vBlurMaterial = new THREE.ShaderMaterial({
         uniforms: {
           tDiffuse: { value: null },
           v: { value: 1.0 / rtHeight }
         },
         vertexShader: `
-varying vec2 vUv;
-void main() {
-vUv = uv;
-gl_Position = vec4(position, 1.0);
-}
-`,
+          varying vec2 vUv;
+          void main() {
+            vUv = uv;
+            gl_Position = vec4(position, 1.0);
+          }
+        `,
         fragmentShader: `
-uniform sampler2D tDiffuse;
-uniform float v;
-varying vec2 vUv;
-void main() {
-vec4 sum = vec4(0.0);
-// 9-tap Gaussian blur (sigma ~= 3.0)
-sum += texture2D(tDiffuse, vec2(vUv.x, vUv.y + 4.0*v)) * .9;
-gl_FragColor = sum;
-}
-`
+          uniform sampler2D tDiffuse;
+          uniform float v;
+          varying vec2 vUv;
+          void main() {
+            vec4 sum = vec4(0.0);
+            sum += texture2D(tDiffuse, vec2(vUv.x, vUv.y - 4.0*v)) * 0.051;
+            sum += texture2D(tDiffuse, vec2(vUv.x, vUv.y - 3.0*v)) * 0.09;
+            sum += texture2D(tDiffuse, vec2(vUv.x, vUv.y - 2.0*v)) * 0.12;
+            sum += texture2D(tDiffuse, vec2(vUv.x, vUv.y - 1.0*v)) * 0.15;
+            sum += texture2D(tDiffuse, vec2(vUv.x, vUv.y)) * 0.16;
+            sum += texture2D(tDiffuse, vec2(vUv.x, vUv.y + 1.0*v)) * 0.15;
+            sum += texture2D(tDiffuse, vec2(vUv.x, vUv.y + 2.0*v)) * 0.12;
+            sum += texture2D(tDiffuse, vec2(vUv.x, vUv.y + 3.0*v)) * 0.09;
+            sum += texture2D(tDiffuse, vec2(vUv.x, vUv.y + 4.0*v)) * 0.051;
+            gl_FragColor = sum;
+          }
+        `
       });
-      // Plane geometry for shader passes
+
       const plane = new THREE.PlaneGeometry(2, 2);
       const quad = new THREE.Mesh(plane, hBlurMaterial);
       blurScene.add(quad);
-      // First pass - horizontal blur
+
       renderer.setRenderTarget(renderTarget);
       renderer.render(blurScene, blurCamera);
-      // Second pass - vertical blur
+
       vBlurMaterial.uniforms.tDiffuse.value = renderTarget.texture;
       quad.material = vBlurMaterial;
       renderer.setRenderTarget(renderTarget2);
       renderer.render(blurScene, blurCamera);
-      // Reset render target
+
       renderer.setRenderTarget(null);
-      // Update the background texture with the blurred one
       blurredTexture = renderTarget2.texture;
-      // Apply blurred texture to background mesh
       bgMaterial.map = blurredTexture;
       bgMaterial.needsUpdate = true;
     };
-    // Ensure the background image is set with proper parameters
+
     bgTexture.minFilter = THREE.LinearFilter;
     bgTexture.magFilter = THREE.LinearFilter;
-    // Create a background plane that fills the view
+
     const bgCamera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
     const bgGeometry = new THREE.PlaneGeometry(2, 2);
     const bgMaterial = new THREE.MeshBasicMaterial({
@@ -157,152 +248,176 @@ gl_FragColor = sum;
     const bgMesh = new THREE.Mesh(bgGeometry, bgMaterial);
     const bgScene = new THREE.Scene();
     bgScene.add(bgMesh);
+
     const camera = new THREE.PerspectiveCamera(
-      60,
-      window.innerWidth / window.innerHeight,
+      settings.fov,
+      dimensions.width / dimensions.height,
       0.1,
       1000
     );
-    camera.position.set(0, 10, 30);
+    camera.position.set(0, 10, settings.cameraDistance);
+
     const renderer = new THREE.WebGLRenderer({
       canvas: canvasRef.current,
-      antialias: true,
+      antialias: !isMobile, // Disable antialiasing on mobile for better performance
+      powerPreference: isMobile ? "low-power" : "high-performance"
     });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize(dimensions.width, dimensions.height);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 2 : isTablet ? 2.5 : 3));
+
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
     const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
     directionalLight.position.set(10, 20, 10);
     scene.add(ambientLight);
     scene.add(directionalLight);
-    const stepHeight = 1;
-    const stepWidth = 5;
-    const stepDepth = 2;
-    const radius = 10;
+
     const angleStep = (Math.PI * 2) / journeyData.length;
     const stepsGroup = new THREE.Group();
+    
     const stepMeshes = journeyData.map((item, index) => {
-      const geometry = new THREE.BoxGeometry(stepWidth, stepHeight, stepDepth);
+      const geometry = new THREE.BoxGeometry(settings.stepWidth, settings.stepHeight, settings.stepDepth);
       const material = new THREE.MeshStandardMaterial({ color: item.color });
       const mesh = new THREE.Mesh(geometry, material);
+      
       const angle = index * angleStep;
       mesh.position.set(
-        radius * Math.cos(angle),
-        index * (stepHeight + 0.2),
-        radius * Math.sin(angle)
+        settings.radius * Math.cos(angle),
+        index * (settings.stepHeight + 0.2),
+        settings.radius * Math.sin(angle)
       );
       mesh.rotation.y = -angle;
-      // Store the step index and data for tooltip use
+
       mesh.userData = {
         originalScale: new THREE.Vector3(1, 1, 1),
         stepIndex: index,
-        isMainStep: true, // Add a flag to identify this as a main step object
+        isMainStep: true,
         stepData: item
       };
+
+      // Responsive canvas text
       const canvas = document.createElement("canvas");
-      canvas.width = 150;
-      canvas.height = 40;
+      canvas.width = settings.canvasWidth;
+      canvas.height = settings.canvasHeight;
       const ctx = canvas.getContext("2d");
-      ctx.font = "16px Arial";
+      ctx.font = `${settings.fontSize}px Arial`;
       ctx.fillStyle = "#ffffff";
       ctx.textAlign = "center";
-      // Set the text based on whether it's education or work experience
+
       let labelText = "";
       if (item.level) {
-        labelText = `${item.level}`;
+        // Responsive text handling
+        if (isMobile && dimensions.width < 480) {
+          // Very small screens - just show level type
+          labelText = item.level.split(' ')[0];
+        } else if (isMobile) {
+          // Mobile - remove year
+          labelText = item.level.replace(/\s*\(\d{4}\)/, '');
+        } else {
+          labelText = item.level;
+        }
       } else {
-        labelText = `${item.company}`;
+        if (isMobile && dimensions.width < 480) {
+          // Very small screens - just show company
+          labelText = item.company;
+        } else {
+          labelText = item.company;
+        }
       }
+
       ctx.fillText(
         labelText,
         canvas.width / 2,
         canvas.height / 2 + 5
       );
+
       const texture = new THREE.CanvasTexture(canvas);
       const labelMaterial = new THREE.MeshBasicMaterial({
         map: texture,
         transparent: true,
       });
-      const labelGeometry = new THREE.PlaneGeometry(4, 1);
+      const labelGeometry = new THREE.PlaneGeometry(settings.labelSize, settings.labelHeight);
       const label = new THREE.Mesh(labelGeometry, labelMaterial);
-      // Mark label as not a main step
+
       label.userData = {
         isMainStep: false,
       };
-      label.position.set(0, stepHeight / 2 + 0.5, 0);
+      label.position.set(0, settings.stepHeight / 2 + 0.5, 0);
       mesh.add(label);
       stepsGroup.add(mesh);
       return mesh;
     });
+
     scene.add(stepsGroup);
-    // Align Step 1 in front (+Z)
+
     const initialStepAngle = 90;
     const targetAngle = Math.PI / 2;
     const initialGroupRotation = targetAngle - initialStepAngle;
     stepsGroup.rotation.y = initialGroupRotation;
-    // Initialize rotation time based on initial group rotation
-    rotationTimeRef.current = stepsGroup.rotation.y / 0.4;
-    camera.position.x = 30 * Math.sin(rotationTimeRef.current * 0.1);
-    camera.position.z = 30 * Math.cos(rotationTimeRef.current * 0.1);
-    camera.lookAt(new THREE.Vector3(0, journeyData.length / 2, 0));
-    // Raycaster for detecting hovering over objects
+
+    rotationTimeRef.current = stepsGroup.rotation.y / 0.25;
+    camera.position.x = settings.cameraDistance * Math.sin(rotationTimeRef.current * 0.1);
+    camera.position.z = settings.cameraDistance * Math.cos(rotationTimeRef.current * 0.1);
+    camera.lookAt(new THREE.Vector3(0, journeyData.length / 1, 0));
+
     const raycaster = new THREE.Raycaster();
     const mouse = new THREE.Vector2();
+
     const handlePointerMove = (event) => {
-      // Track mouse position
       const rect = renderer.domElement.getBoundingClientRect();
       mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
       mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-      // Update tooltip position
+
+      // Responsive tooltip positioning
+      const tooltipOffset = isMobile ? 70 : isTablet ? 60 : 50;
       setTooltipPosition({
         x: event.clientX,
-        y: event.clientY - 50,
+        y: event.clientY - tooltipOffset,
       });
-      // Cast ray to detect objects
+
       raycaster.setFromCamera(mouse, camera);
       const intersects = raycaster.intersectObjects(scene.children, true);
-      // Find the first intersection that is a main step (not a label)
+
       const mainStepIntersect = intersects.find(
         (intersect) =>
           intersect.object.userData &&
           intersect.object.userData.isMainStep === true
       );
-      // Handle when not hovering over a main step
+
       if (!mainStepIntersect) {
-        // If we were previously hovering over something, reset it
         if (hoveredStepRef.current) {
-          hoveredStepRef.current.scale.set(1, 1, 1); // Reset scale
+          hoveredStepRef.current.scale.set(1, 1, 1);
           hoveredStepRef.current = null;
         }
         isHoveredRef.current = false;
         setTooltipVisible(false);
         return;
       }
-      // Handle hovering over a main step
+
       const hoveredObject = mainStepIntersect.object;
       isHoveredRef.current = true;
-      // If it's a different object than before, reset old one and set up new one
+
       if (hoveredStepRef.current !== hoveredObject) {
         if (hoveredStepRef.current) {
-          hoveredStepRef.current.scale.set(1, 1, 1); // Reset previous object
+          hoveredStepRef.current.scale.set(1, 1, 1);
         }
         hoveredStepRef.current = hoveredObject;
-        hoveredObject.scale.set(1.2, 1.2, 1.2); // Apply zoom effect
-        // Update tooltip content based on the step data
+        
+        // Responsive scale effect
+        const scaleValue = isMobile ? 1.1 : isTablet ? 1.15 : 1.2;
+        hoveredObject.scale.set(scaleValue, scaleValue, scaleValue);
+
         const stepData = hoveredObject.userData.stepData;
         let tooltipContent = "";
         if (stepData.level) {
-          // Education format
           tooltipContent = `${stepData.level} at ${stepData.institution}${stepData.percentage ? ` (${stepData.percentage}%)` : ''}`;
         } else {
-          // Work experience format
           tooltipContent = `${stepData.role} at ${stepData.company}${stepData.period ? ` (${stepData.period})` : ''}`;
         }
         setTooltipText(tooltipContent);
         setTooltipVisible(true);
       }
     };
-    // Handle mouse leaving canvas
+
     const handlePointerLeave = () => {
       if (hoveredStepRef.current) {
         hoveredStepRef.current.scale.set(1, 1, 1);
@@ -311,118 +426,160 @@ gl_FragColor = sum;
       isHoveredRef.current = false;
       setTooltipVisible(false);
     };
+
     renderer.domElement.addEventListener("pointermove", handlePointerMove);
     renderer.domElement.addEventListener("pointerleave", handlePointerLeave);
-    // Drag logic
+
+    // Touch-friendly drag controls
     const handlePointerDown = (event) => {
       isDraggingRef.current = true;
-      lastX.current = event.clientX;
+      const clientX = event.clientX || (event.touches && event.touches[0].clientX);
+      lastX.current = clientX;
     };
+
     const handlePointerMoveDrag = (event) => {
       if (!isDraggingRef.current) return;
-      const deltaX = event.clientX - lastX.current;
-      lastX.current = event.clientX;
-      const rotationDelta = deltaX * 0.005;
+      
+      const clientX = event.clientX || (event.touches && event.touches[0].clientX);
+      const deltaX = clientX - lastX.current;
+      lastX.current = clientX;
+      
+      // Device-specific rotation sensitivity
+      let rotationSensitivity;
+      if (isMobile) {
+        rotationSensitivity = 0.01;
+      } else if (isTablet) {
+        rotationSensitivity = 0.008;
+      } else {
+        rotationSensitivity = 0.005;
+      }
+      
+      const rotationDelta = deltaX * rotationSensitivity;
       stepsGroup.rotation.y += rotationDelta;
-      // Update rotation time based on current group rotation
-      // This ensures animation continues from current position
+
       rotationTimeRef.current = stepsGroup.rotation.y / 0.4;
-      camera.position.x = 30 * Math.sin(rotationTimeRef.current * 0.1);
-      camera.position.z = 30 * Math.cos(rotationTimeRef.current * 0.1);
+      camera.position.x = settings.cameraDistance * Math.sin(rotationTimeRef.current * 0.1);
+      camera.position.z = settings.cameraDistance * Math.cos(rotationTimeRef.current * 0.1);
       camera.lookAt(new THREE.Vector3(0, journeyData.length / 2, 0));
     };
+
     const handlePointerUp = () => {
       if (isDraggingRef.current) {
-        // Capture the final rotation position to continue from there
         rotationTimeRef.current = stepsGroup.rotation.y / 0.4;
         isDraggingRef.current = false;
       }
     };
+
+    // Add all pointer and touch events
     renderer.domElement.addEventListener("pointerdown", handlePointerDown);
     renderer.domElement.addEventListener("pointermove", handlePointerMoveDrag);
     renderer.domElement.addEventListener("pointerup", handlePointerUp);
-    document.addEventListener("pointerup", handlePointerUp); // Handle case when released outside canvas
-    // Animation loop
+    renderer.domElement.addEventListener("touchstart", handlePointerDown, { passive: true });
+    renderer.domElement.addEventListener("touchmove", handlePointerMoveDrag, { passive: true });
+    renderer.domElement.addEventListener("touchend", handlePointerUp, { passive: true });
+    document.addEventListener("pointerup", handlePointerUp);
+    document.addEventListener("touchend", handlePointerUp, { passive: true });
+
     let animationId;
     let lastTime = Date.now();
+    
     const animate = () => {
       animationId = requestAnimationFrame(animate);
       const now = Date.now();
       const delta = (now - lastTime) * 0.001;
       lastTime = now;
-      // Only auto-rotate when not hovering and not dragging
+
       if (!isHoveredRef.current && !isDraggingRef.current) {
-        // Increment rotation time and apply to group rotation
         rotationTimeRef.current += delta;
         stepsGroup.rotation.y = rotationTimeRef.current * 0.4;
-        // Update camera position based on rotation time
-        camera.position.x = 30 * Math.sin(rotationTimeRef.current * 0.1);
-        camera.position.z = 30 * Math.cos(rotationTimeRef.current * 0.1);
+
+        camera.position.x = settings.cameraDistance * Math.sin(rotationTimeRef.current * 0.1);
+        camera.position.z = settings.cameraDistance * Math.cos(rotationTimeRef.current * 0.1);
         camera.lookAt(new THREE.Vector3(0, journeyData.length / 2, 0));
       }
+
       stepsGroup.children.forEach((stepMesh) => {
         const label = stepMesh.children[0];
         if (label) label.lookAt(camera.position);
       });
-      // Render the background first
+
       renderer.autoClear = false;
       renderer.clear();
       renderer.render(bgScene, bgCamera);
-      // Then render the main scene
       renderer.render(scene, camera);
     };
+
     animate();
+
     const handleResize = () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
+      const newWidth = window.innerWidth;
+      const newHeight = window.innerHeight;
+      
+      camera.aspect = newWidth / newHeight;
       camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setSize(newWidth, newHeight);
+      
+      // Update dimensions state - this will trigger a re-render
+      setDimensions({ width: newWidth, height: newHeight });
     };
+
     window.addEventListener("resize", handleResize);
+
     return () => {
       cancelAnimationFrame(animationId);
       renderer.dispose();
       window.removeEventListener("resize", handleResize);
       renderer.domElement.removeEventListener("pointermove", handlePointerMove);
-      renderer.domElement.removeEventListener(
-        "pointerleave",
-        handlePointerLeave
-      );
+      renderer.domElement.removeEventListener("pointerleave", handlePointerLeave);
       renderer.domElement.removeEventListener("pointerdown", handlePointerDown);
-      renderer.domElement.removeEventListener(
-        "pointermove",
-        handlePointerMoveDrag
-      );
+      renderer.domElement.removeEventListener("pointermove", handlePointerMoveDrag);
       renderer.domElement.removeEventListener("pointerup", handlePointerUp);
+      renderer.domElement.removeEventListener("touchstart", handlePointerDown);
+      renderer.domElement.removeEventListener("touchmove", handlePointerMoveDrag);
+      renderer.domElement.removeEventListener("touchend", handlePointerUp);
       document.removeEventListener("pointerup", handlePointerUp);
+      document.removeEventListener("touchend", handlePointerUp);
     };
-  }, []);
+  }, [dimensions, isMobile, isTablet, isDesktop]); // Re-run when device state changes
+
+  // Get responsive title classes
+  const getTitleClasses = () => {
+    if (isMobile) {
+      return dimensions.width < 480 
+        ? 'text-2xl sm:text-3xl' 
+        : 'text-3xl sm:text-4xl';
+    } else if (isTablet) {
+      return 'text-4xl md:text-5xl';
+    } else {
+      return 'text-5xl md:text-6xl lg:text-7xl';
+    }
+  };
+
   return (
     <div className="relative w-full bg-gradient-to-br from-slate-900 via-slate-800 to-slate-700">
-      <div className="absolute top-0 left-0 w-full z-10">
-        <p className="w-full p-2 !text-white !text-5xl !md:text-6xl text-center !mt-4">My Journey so far!!</p>
-        <div className="absolute left-[37%] !border-t-4 !border-teal-500 w-100 mb-16"></div>
+      <div className="absolute top-0 left-0 w-full z-10 px-2 sm:px-4">
+        <p className={`w-full p-2 text-white text-center mt-2 sm:mt-4 font-bold ${getTitleClasses()}`}>
+          My Journey so far!!
+        </p>
       </div>
       <canvas
         ref={canvasRef}
-        style={{ width: "100%", height: "100vh" }}
+        className="w-full h-screen"
+        style={{ 
+          touchAction: "none" // Prevent default touch behaviors for better control
+        }}
       />
       {tooltipVisible && (
         <div
+          className="absolute bg-white text-black rounded shadow-lg text-wrap pointer-events-none z-[1000] transition-opacity duration-200"
           style={{
-            position: "absolute",
             top: tooltipPosition.y,
             left: tooltipPosition.x,
             transform: "translate(-50%, -100%)",
-            backgroundColor: "white",
-            color: "black",
-            padding: "8px 12px",
-            borderRadius: "4px",
-            fontSize: "14px",
-            pointerEvents: "none",
-            zIndex: 1000,
-            whiteSpace: "nowrap",
-            boxShadow: "0 2px 5px rgba(0,0,0,0.3)",
-            transition: "opacity 0.2s",
+            padding: isMobile ? "6px 10px" : isTablet ? "7px 11px" : "8px 12px",
+            fontSize: isMobile ? "11px" : isTablet ? "13px" : "14px",
+            maxWidth: isMobile ? "180px" : isTablet ? "250px" : "300px",
+            wordWrap: "break-word",
           }}
         >
           {tooltipText}
@@ -431,4 +588,5 @@ gl_FragColor = sum;
     </div>
   );
 };
+
 export default ReactDeveloperJourney;
