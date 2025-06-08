@@ -13,7 +13,7 @@ const Navbar = () => {
       <nav className="flex justify-between items-center py-6 px-8 bg-slate-900 border-b border-teal-400/10">
         {/* Logo */}
         <div className="flex items-center">
-          <div className="h-10 flex bg-white/40 items-center justify-center border-2 border-teal-400 !text-white/90 font-bold text-2xl rounded-md  px-2 hover:!text-teal-400 hover:bg-white cursor-pointer hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300" onClick={()=>{scrollToSection('banner')}}>
+          <div className="h-10 flex bg-white items-center justify-center border-2 border-teal-400 !text-teal-400 font-bold text-2xl rounded-md  px-2 hover:!text-slate-900 hover:bg-white cursor-pointer hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300" onClick={()=>{scrollToSection('banner')}}>
             SB
           </div>
         </div>
